@@ -14,6 +14,7 @@ import EpisodeBox from "./episodes.jsx";
 import SearchBox from "./search.jsx";
 import SubtitleBox from "./subtitle.jsx";
 import CrewBox from "./crews.jsx";
+import RatingBox from "./ratings.jsx";
 
 class RootBox extends React.Component {
   constructor(props) {
@@ -134,7 +135,7 @@ class RootBox extends React.Component {
           rated={this.state.data.rated} />
 
         <div className="row">
-          <div className="col l6 m6 s12">
+          <div className="col l8 m6 s12">
             {this.state.data.description}
             {more?more:null}
 
@@ -144,10 +145,12 @@ class RootBox extends React.Component {
               writers={this.state.data.writers}
               actors={this.state.data.actors}/>
 
+            <RatingBox ratings={this.state.data.ratings} />
+
             <LocationBox locations={this.state.data.locations} />
           </div>
 
-          <div className="col l6 m6 s12">
+          <div className="col l4 m6 s12">
             <GalleryBox
               images={this.state.data.gallery} />
           </div>

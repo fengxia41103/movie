@@ -12,7 +12,7 @@ class SubtitleBox extends Component {
         <ul className="list-inline subtitle">
           <li>
             <span className="mylabel myhighlight">IMDB</span>
-            {this.props.imdbRating}
+            &nbsp;{this.props.imdbRating}
           </li><li>
             {this.props.runtime}
           </li><li>
