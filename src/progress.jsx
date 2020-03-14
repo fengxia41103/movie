@@ -1,6 +1,6 @@
-import React from "react";
+import React, {Component} from "react";
 
-class ProgressBox extends React.Component {
+class ProgressBox extends Component {
   render() {
     return (
       <div className="progress">

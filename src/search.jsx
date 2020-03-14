@@ -9,11 +9,14 @@ class SearchBox extends Component {
     super(props);
 
     this.state={
-      imdbApi: "http://www.omdbapi.com/",
-      imdbToken: "c6638eb9",
+      omdbApi: "http://www.omdbapi.com/",
+      omdbToken: "c6638eb9",
       searching: null,
-      changed: false
     }
+
+    // can't use state since we are flipping it
+    // in render()
+    this.changed = false;
 
     // binding
     this.handleChange = this.handleChange.bind(this);
@@ -21,18 +24,20 @@ class SearchBox extends Component {
   }
 
   handleChange(event) {
-    const changed = !(this.state.searching===event.target.value);
+    // did data change?
+    this.changed = !(this.state.searching===event.target.value);
 
+    // save whatis being searched
     this.setState({
       searching: event.target.value,
-      changed: changed
     });
 
   }
 
   getQuery(){
-    return this.state.imdbApi+"?apikey="
-          +this.state.imdbToken
+    // OMDBAPI url
+    return this.state.omdbApi+"?apikey="
+          +this.state.omdbToken
           +"&t="
           +encodeURI(this.state.searching);
   }
@@ -41,13 +46,11 @@ class SearchBox extends Component {
     // If search text has changed,
     // call IMDB API to get data.
 
-    if (this.state.changed){
+    if (this.changed){
       const query = this.getQuery();
 
       // reset the flag
-      this.setState({
-        changed: false
-      })
+      this.changed = false;
 
       return (
         <AjaxContainer

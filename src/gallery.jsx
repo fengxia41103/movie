@@ -1,12 +1,7 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import _ from "lodash";
+import React, {Component} from "react";
 import classNames from "classnames";
-import {randomId} from "./helper.jsx";
 
-
-
-class GalleryBox extends React.Component {
+class GalleryBox extends Component {
   constructor(props) {
     super(props);
 
@@ -73,6 +68,8 @@ class GalleryBox extends React.Component {
   render() {
     // showing is index of 1
     const showing = this.props.images[this.state.showing-1];
+
+    if (!showing || showing.src==="N/A") return null;
 
     return (
       <figure>

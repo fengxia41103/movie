@@ -15,11 +15,11 @@ class SeasonBox extends Component {
   }
 
   render(){
-    const episodes = this.state.rated.map(e=>{
+    const episodes = this.state.rated.map((e,index,obj)=>{
       const name = e.name;
       const rating = e.rating;
       return (
-        <div>
+        <div key={index}>
           {name}:
           <span className="blue-text right">{rating}</span>
         </div>
@@ -69,7 +69,8 @@ class EpisodeBox extends Component {
     const groupedBySeason = groupBy(this.props.episodes, e=>e.season);
     const seasons = map(groupedBySeason, (episodes, season)=>{
       return (
-        <SeasonBox season={season}
+        <SeasonBox key={season}
+                   season={season}
                    episodes={episodes} />
       )
     });
@@ -77,6 +78,7 @@ class EpisodeBox extends Component {
 
     return (
       <div>
+        <hr />
         {seasons}
       </div>
     );

@@ -87,20 +87,16 @@ class SnippetQuizGame extends Component {
         </div>
 
         <div className="col l8 m8 s12">
-          <p>
-            {this.state.part_1}
+          {this.state.part_1}
 
-            <DebounceInput
-              className="input-field"
-              debounceTimeout={300}
-              value={this.state.yourAnswer}
-              onChange={this.handleChange} />
-            {this.state.part_2}
-          </p>
+          <DebounceInput
+            className="input-field"
+            debounceTimeout={300}
+            value={this.state.yourAnswer}
+            onChange={this.handleChange} />
+          {this.state.part_2}
 
-          <p>
-            <HintBox clues={this.state.answer} />
-          </p>
+          <HintBox clues={this.state.answer} />
         </div>
       </div>
     );
@@ -143,10 +139,8 @@ class HintBox extends Component {
     return (
       <div>
         <div>
-          <Button
-            variant="info"
-            className="myhighlight col l6 m6 s12"
-            onClick={this.onNext}>
+          <Button className="myhighlight col l6 m6 s12"
+                  onClick={this.onNext}>
             <i className="fa fa-book"></i>
             CLUE
             <span className="right">
@@ -154,8 +148,7 @@ class HintBox extends Component {
             </span>
           </Button>
 
-          <Button variant="info"
-                  className="col l2 m2 s12"
+          <Button className="col l2 m2 s12"
                   onClick={this.onReset}>
             Play again
           </Button>
@@ -178,6 +171,7 @@ class SnippetsBox extends Component {
     const snippets = this.props.snippets.map((s, index, arrayObj) => {
       return (
         <SnippetQuizGame
+          key={index}
           index={index}
           line={s} />
       )
@@ -194,7 +188,7 @@ class SnippetsBox extends Component {
             button for help, or the TELL ME if you are really stuck.
           </p>
           <p>
-            <Button variant="primary">Let's start</Button>
+            <Button>Let's start</Button>
           </p>
         </Jumbotron>
 

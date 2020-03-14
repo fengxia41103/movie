@@ -1,35 +1,27 @@
-# worldsnapshot
+# movie browser
 
-Inspired by [DATA USA][] this is a REACT project that utilize public data API for data visualization. In particular, the application will
-illustrate a snapshot of a country using data such as the World Bank API and the DHS dataset.
+Posted a challenge to build a _search_/browser for movie fan. Given a
+static data set to display. So implemented a few other data sources,
+eg. IMDB. 
 
-> demo: [A World Snapshot][]
-
-[data usa]: https://datausa.io/
-[a world snapshot]: http://worldsnapshot.s3-website-us-east-1.amazonaws.com/
 
 ## Data sources
 
-1. [DHS][]: [DHS][] data set is published by [US AID][]. Following its [API][]
-   documents, [indicators][] are selected to depict a country's well doing.
-2. [The World Bank]:  Another comprehensive data set is [The World Bank][] set.
-   Check out its [indicators][1] page for a list of available indexes. Note that
-   [official document][2] is still refering to _v1_ version of the API, which
-   will block on CORS requests. Using **v2/en** endpoint instead. For example,
-   to get a list of country names:
 
-<pre class="brush:javascript">
-var api = "http://api.worldbank.org/v2/en/countries?format=json&per_page=1000";
-</pre>
+1. [OMDB API][omdbapi]: When speaking of movies, one immediately thinks
+   of [IMDB][imdb], Surprisingly IMDB doesn't have an official
+   API. There is an third-party offering called [omdbapi][omdbapi],
+   sounds pretty copycat. Data set is fairly simple once you get an
+   [API key][omdbapi key] (free for 1000 calls per day) and examine
+   the data comparing to what is displayed on a IMDB page.
 
-[data usa]: https://datausa.io/
-[dhs]: http://dhsprogram.com/data/
-[us aid]: https://www.usaid.gov/
-[api]: http://api.dhsprogram.com/#/index.html
-[indicators]: http://api.dhsprogram.com/#/api-indicators.cfm
-[the world bank]: https://datahelpdesk.worldbank.org/knowledgebase/articles/898599-api-indicator-queries
-[1]: http://data.worldbank.org/indicator
-[2]: https://datahelpdesk.worldbank.org/knowledgebase/topics/125589
+        ```js
+        api = http://www.omdbapi.com/?apikey=c6638eb9&t=Wall%20E
+        ```
+
+[imdb]: https://www.imdb.com/
+[omdbapi]: http://www.omdbapi.com/
+[omdbapi key]: http://www.omdbapi.com/apikey.aspx
 
 ## Toolset
 
@@ -45,7 +37,7 @@ var api = "http://api.worldbank.org/v2/en/countries?format=json&per_page=1000";
 
 ## Development
 
-1. Install `nvm` and node 9.4.
+1. Install `nvm` and node (tested 9.4, 12.1).
 1. `npm install`: to pull all dependencies
 2. `npm run dev`
 3. browse `localhost:8080`, browser will auto-refresh when webpack detects a change to source files.
@@ -53,7 +45,16 @@ var api = "http://api.worldbank.org/v2/en/countries?format=json&per_page=1000";
 ## Deploy
 
 1. `npm run build`
-2. goto `/dist`
-3. `pip install awscli`
-4. assuming you have setup your AWS account, `aws s3 sync . s3://snapshots.world/`.
-5. verify on a browser.   
+2. push `/dist` to your static file hosting service.
+3. verify on a browser.
+
+Static data JSONs can be hosted in other locations instead of packaged
+in this. In that case, you need to modify the `json_data_server`
+setting in `root.jsx`:
+
+```js
+this.state = {
+  json_data_server: "data/", <-- to an absolute URL
+  ...
+};
+```

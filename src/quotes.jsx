@@ -8,6 +8,8 @@ class QuoteBox extends Component {
 
     return (
       <div>
+        <hr/>
+
         <p>
           Critics have been raving about this movie:
         </p>

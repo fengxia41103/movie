@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from "react";
 import ProgressBox from "./progress.jsx";
 import {debounce} from "lodash";
 
@@ -7,9 +7,10 @@ import {debounce} from "lodash";
 //    Common AJAX containers
 //
 //****************************************
-class AjaxContainer extends React.Component {
+class AjaxContainer extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       loading: false,
     };
@@ -46,7 +47,7 @@ class AjaxContainer extends React.Component {
       .catch(error => {});
   }
 
-  componentDidMount() {
+  componentWillMount() {
     // Get data
     // https://medium.com/@santoshpunase/integrating-apis-in-react-js-constructor-vs-componentwillmount-vs-componentdidmount-e0b98c3efecd
     if (!this.state.loading && this.debounceGetData) {

@@ -7,9 +7,9 @@ class LocationBox extends Component {
     // nothing to display
     if (this.props.locations.length<1) return null;
 
-    const locations = this.props.locations.map(s=>{
+    const locations = this.props.locations.map((s,index,obj)=>{
       return(
-        <span className="flabel">
+        <span key={index} className="flabel">
           {s}
         </span>
       )
