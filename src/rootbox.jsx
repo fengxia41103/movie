@@ -111,14 +111,6 @@ class RootBox extends React.Component {
     // we don't know this movie
     const hasContent = !!this.state.data.title;
 
-    let more = false;
-    if (this.state.data.imdbID){
-      let url = "https://www.imdb.com/title/"+this.state.data.imdbID;
-      more = (
-        <a href={url}>See more on IMDB.</a>
-      )
-    }
-
     return (
       <div className="container">
         <label>Search for your favourate movie</label>
@@ -137,7 +129,6 @@ class RootBox extends React.Component {
         <div className="row">
           <div className="col l8 m6 s12">
             {this.state.data.description}
-            {more?more:null}
 
             <CrewBox
               director={this.state.data.director}
@@ -145,7 +136,8 @@ class RootBox extends React.Component {
               writers={this.state.data.writers}
               actors={this.state.data.actors}/>
 
-            <RatingBox ratings={this.state.data.ratings} />
+            <RatingBox ratings={this.state.data.ratings}
+                       imdbID={this.state.data.imdbID} />
 
             <LocationBox locations={this.state.data.locations} />
           </div>
