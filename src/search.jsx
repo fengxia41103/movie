@@ -11,6 +11,8 @@ class SearchBox extends Component {
     this.state={
       omdbApi: "http://www.omdbapi.com/",
       omdbToken: "c6638eb9",
+      tmdbApi: "https://api.themoviedb.org/3/",
+      tmdbToken: "e3c272cc822b221997e768121dc30bff",
       searching: null,
     }
 
@@ -62,7 +64,9 @@ class SearchBox extends Component {
     return (
       <div>
         <DebounceInput
-          className="input-field"
+          className="input-field myhighlight"
+          style={{fontSize: "1em"}}
+          placeholder="eg. Star Wars (case sensitive)"
           debounceTimeout={1000}
           value={this.state.searching}
           onChange={this.handleChange} />

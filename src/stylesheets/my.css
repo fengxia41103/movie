@@ -189,3 +189,7 @@ video {
     font-family: 'Titillium Web', sans-serif;
     font-size: medium;
 }
+
+.metascore {
+    color: #607d8b;
+}

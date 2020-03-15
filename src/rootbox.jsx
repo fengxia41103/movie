@@ -35,7 +35,7 @@ class RootBox extends React.Component {
     // normalize data coming from different sources
     const title = data.Title? data.Title: data.heading;
 
-    return {
+    let normalized = {
       title: title,
       description: data.description || data.Plot,
       locations: data.locations || [],
@@ -55,7 +55,7 @@ class RootBox extends React.Component {
       country: data.Country || "",
       awards: data.Awards || "",
       ratings: data.Ratings || [],
-      metascore: parseInt(data.Metascore || ""),
+      metaScore: data.Metascore || "",
       imdbRating: parseFloat(data.imdbRating || ""),
       imdbVotes: parseInt(data.imdbVotes || ""),
       imdbID: data.imdbID,
@@ -65,6 +65,17 @@ class RootBox extends React.Component {
       production: data.Production || "",
       rated: data.Rated || ""
     }
+
+    // Anything says "N/A" should be an empty string.
+    // Individual component will determine how to handle this.
+    // By default, it will render nothing.
+    for (let key in normalized){
+      if (normalized[key] == "N/A"){
+        normalized[key] = "";
+      }
+    }
+
+    return normalized;
   }
 
 
@@ -122,9 +133,9 @@ class RootBox extends React.Component {
         <SubtitleBox
           runtime={this.state.data.runtime}
           year={this.state.data.year}
-          imdbRating={this.state.data.imdbRating}
-          imdbVotes={this.state.data.imdbVotes}
-          rated={this.state.data.rated} />
+          language={this.state.data.language}
+          rated={this.state.data.rated}
+          metaScore={this.state.data.metaScore} />
 
         <div className="row">
           <div className="col l8 m6 s12">
