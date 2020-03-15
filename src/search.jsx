@@ -22,7 +22,6 @@ class SearchBox extends Component {
 
     // binding
     this.handleChange = this.handleChange.bind(this);
-    this.getQuery = this.getQuery.bind(this);
   }
 
   handleChange(event) {
@@ -36,20 +35,17 @@ class SearchBox extends Component {
 
   }
 
-  getQuery(){
-    // OMDBAPI url
-    return this.state.omdbApi+"?apikey="
-          +this.state.omdbToken
-          +"&t="
-          +encodeURI(this.state.searching);
-  }
 
   render() {
     // If search text has changed,
     // call IMDB API to get data.
 
     if (this.changed){
-      const query = this.getQuery();
+      const query = this.state.omdbApi+"?apikey="
+                   +this.state.omdbToken
+                   +"&s="
+                   +encodeURI(this.state.searching);
+
 
       // reset the flag
       this.changed = false;
