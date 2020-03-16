@@ -1,74 +1,47 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import { randomId } from "./helper.jsx";
 import {random, different} from "lodash";
 import {DebounceInput} from 'react-debounce-input';
 import { Button, Jumbotron } from "react-bootstrap";
+import {dictHasNoValues} from "./helper.jsx";
 
 class SnippetQuizGame extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      part_1: null,
-      part_2: null,
-      answer: "",
-      youAnswer: "",
+      userAnswer: "",
       matched: false
     }
 
     //binding
-    this.makeUpTheRiddle = this.makeUpTheRiddle.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
-  makeUpTheRiddle() {
-    // break up to an array
-    const words = this.props.line.split(" ");
-
-    // randomly select two indexes, but can't be the whole thing!
-    // _.random is inclusive.
-    const index_1 = random(0, words.length/2);
-    const index_2 = random(words.length/2, words.length);
-    const start = index_1 > index_2 ? index_2 : index_1;
-    const end = index_1 > index_2 ? index_1 : index_2;
-
-    // save to state
-    this.setState({
-      part_1: words.slice(0, start).join(" "),
-      part_2: words.slice(end, words.length).join(" "),
-      answer: words.slice(start, end),
-      yourAnswer: ""
-    });
-
-  }
-
-  componentWillMount() {
-    // must use WillMount
-    this.makeUpTheRiddle();
-  }
 
   handleChange(event) {
     const userInput = event.target.value.split(" ");
-    const diff = difference(userInput, this.state.answer);
-    const matched = userInput.length === this.state.answer.length && diff.length === 0;
+    const diff = difference(userInput, this.props.answer);
+    const matched = userInput.length === this.props.answer.length && diff.length === 0;
 
     this.setState({
-      yourAnswer: event.target.value,
+      userAnswer: event.target.value,
       matched: matched
     });
   }
 
   render() {
-    const index = this.props.index + 1;
-    let match = "";
+    // nothing to display
+    if (this.props.index === null) return null;
 
+    let match = "";
     if (this.state.matched){
       match = (
         <i className="fa fa-thumbs-o-up"></i>
       );
     } else{
-      if (this.state.yourAnswer.length>1){
+
+      if (this.state.userAnswer.length>1){
         match =(
           <i className="fa fa-thumbs-o-down"></i>
         );
@@ -79,7 +52,7 @@ class SnippetQuizGame extends Component {
       <div className="row">
         <div className="col l2 m2 s12">
           <h5>
-            Snippet #{index}
+            Snippet #{this.props.index+1}
             <span className="right">
               {match}
             </span>
@@ -87,16 +60,16 @@ class SnippetQuizGame extends Component {
         </div>
 
         <div className="col l8 m8 s12">
-          {this.state.part_1}
+          {this.props.part1}
 
           <DebounceInput
             className="input-field"
             debounceTimeout={300}
-            value={this.state.yourAnswer}
+            value={this.state.userAnswer}
             onChange={this.handleChange} />
-          {this.state.part_2}
+          {this.props.part2}
 
-          <HintBox clues={this.state.answer} />
+          <HintBox clues={this.props.answer} />
         </div>
       </div>
     );
@@ -138,23 +111,21 @@ class HintBox extends Component {
     }
     return (
       <div>
-        <div>
-          <Button className="myhighlight col l6 m6 s12"
-                  onClick={this.onNext}>
-            <i className="fa fa-book"></i>
-            CLUE
-            <span className="right">
-              {whatIsLeft} words remaining
-            </span>
-          </Button>
+        <Button className="myhighlight col l6 m6 s12"
+                onClick={this.onNext}>
+          <i className="fa fa-book"></i>
+          CLUE
+        </Button>
 
-          <Button className="col l2 m2 s12"
-                  onClick={this.onReset}>
-            Play again
-          </Button>
-        </div>
+        <Button className="col l6 m6 s12"
+                onClick={this.onReset}>
+          Play again
+        </Button>
+        <p className="myhint">
+          {whatIsLeft} hints left
+        </p>
 
-        <p className="col s12 myhighlight">
+        <p className="myhighlight">
           { hints }
         </p>
       </div>
@@ -164,20 +135,66 @@ class HintBox extends Component {
 
 
 class SnippetsBox extends Component {
+  constructor(props){
+    super(props);
+
+    this.state = {
+      onIndex: null,
+      part_1: null,
+      part_2: null,
+      answer: [],
+    }
+
+    // binding
+    this.onNext = this.onNext.bind(this);
+    this.makeUpTheRiddle = this.makeUpTheRiddle.bind(this);
+  }
+
+  onNext(){
+    let next = this.state.onIndex + 1;
+    if (next === this.props.snippets.length){
+      // rotate back to beginning
+      next = 0;
+    }
+
+    // update index
+    this.setState({
+      onIndex: next
+    })
+
+    // update game content
+    this.makeUpTheRiddle(this.props.snippets[next]);
+  }
+
+  makeUpTheRiddle(line) {
+    // break up to an array
+    const words = line.split(" ");
+
+    // randomly select two indexes, but can't be the whole thing!
+    // _.random is inclusive.
+    const index_1 = random(0, words.length/2);
+    const index_2 = random(words.length/2, words.length);
+    const start = index_1 > index_2 ? index_2 : index_1;
+    const end = index_1 > index_2 ? index_1 : index_2;
+
+    const part_1 = words.slice(0, start).join(" ");
+    const part_2 = words.slice(end, words.length).join(" ");
+    const answer = words.slice(start, end);
+
+    // save to state
+    this.setState({
+      part_1: part_1,
+      part_2: part_2,
+      answer: answer
+    });
+  }
+
+
   render() {
     // nothing to display
     if (this.props.snippets.length<1) return null;
 
-    const snippets = this.props.snippets.map((s, index, arrayObj) => {
-      return (
-        <SnippetQuizGame
-          key={index}
-          index={index}
-          line={s} />
-      )
-    });
-
-
+    const snippet = this.props.snippets[this.state.onIndex];
     return (
       <div>
         <Jumbotron>
@@ -188,13 +205,16 @@ class SnippetsBox extends Component {
             button for help, or the TELL ME if you are really stuck.
           </p>
           <p>
-            <Button>Let's start</Button>
+            <Button onClick={this.onNext}>Play the game</Button>
           </p>
         </Jumbotron>
 
-        <div>
-          {snippets}
-        </div>
+        <SnippetQuizGame
+          index={this.state.onIndex}
+          line={snippet}
+          part1={this.state.part_1}
+          part2={this.state.part_2}
+          answer={this.state.answer} />
       </div>
     )
   }

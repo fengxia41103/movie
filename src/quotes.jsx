@@ -3,8 +3,9 @@ import classNames from "classnames";
 
 class QuoteBox extends Component {
   render() {
+
     // nothing to display
-    if (!!!this.props.text) return null;
+    if (!!!this.props.quote.text) return null;
 
     return (
       <div>
@@ -16,9 +17,9 @@ class QuoteBox extends Component {
 
         <blockquote>
           <p className="quotation">
-            {this.props.text}
+            {this.props.quote.text}
           </p>
-          <footer>— {this.props.author}</footer>
+          <footer>— {this.props.quote.author}</footer>
         </blockquote>
       </div>
     );

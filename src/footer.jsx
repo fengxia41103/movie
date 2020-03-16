@@ -8,8 +8,8 @@ class Footer extends React.Component {
         <div className="container">
           <h5>Data source</h5>
           <ul>
-            <li>The World Bank</li>
-            <li>USAID</li>
+            <li><a href="http://www.omdbapi.com/">OMDB</a></li>
+            <li><a href="https://ibm.box.com/s/ufnb4dlv5hmfln58lt37563l0yvdw4xt">IBM</a></li>
           </ul>
         </div>
         <div className="footer-copyright">
@@ -17,7 +17,7 @@ class Footer extends React.Component {
             <i className="fa fa-copyright"></i>2020 PY Consulting Ltd.
             <span className="grey-text text-lighten-4 right">
               Made by{" "}
-              <a href="https://fengxia41103.github.com/myblog">Feng Xia</a>
+              <a href="https://github.com/fengxia41103/movie">Feng Xia</a>
             </span>
           </div>
         </div>

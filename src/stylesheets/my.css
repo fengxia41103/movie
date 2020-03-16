@@ -74,13 +74,9 @@ article p {
     margin-bottom: 2em;
 }
 
-footer {
-    /* Set the fixed height of the footer here */
-    color: #fff;
-}
 
 .myheader {
-    background: url("/images/photo-1451187580459-43490279c0fa.jpg") no-repeat;
+    background: url("/images/DSC_1190309.JPG") no-repeat;
     min-height: 100vh;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -192,4 +188,13 @@ video {
 
 .metascore {
     color: #607d8b;
+}
+
+
+footer.page-footer {
+    background-color: #bcaaa4;
+}
+
+.myhint {
+    color: gray;
 }
