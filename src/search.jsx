@@ -40,7 +40,7 @@ class SearchBox extends Component {
     // If search text has changed,
     // call IMDB API to get data.
 
-    if (this.changed){
+    if (this.changed && this.state.searching){
       const query = this.state.omdbApi+"?apikey="
                    +this.state.omdbToken
                    +"&s="

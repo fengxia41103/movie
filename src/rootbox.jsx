@@ -28,7 +28,7 @@ class RootBox extends React.Component {
   render() {
     const movies = this.state.data.map((m, index)=>{
       return (
-        <MovieBox key={index} imdbID={m.imdbID} />
+        <MovieBox key={m.imdbID} imdbID={m.imdbID} />
       )
     });
 
