@@ -1,4 +1,4 @@
-# movie browser
+# Feng's movie browser
 
 Posted a challenge to build a _search_/browser for movie fan. Given a
 static data set to display. So on top of given, implemented a few
@@ -10,7 +10,7 @@ the ES6 syntax much cleaner.
 
 1. Install `nvm` and node (tested 9.4, 12.1).
 2. `npm install`: to pull all dependencies.
-3. `npm run build` because static files will be served from `/dist`
+3. `npm run build` because static files will be served from `/doc`
    (defined in `webpack.config`) by default. However, they can also be
    served outside the application entirely. See `Deploy` section for
    more info.
