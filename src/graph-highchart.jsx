@@ -85,12 +85,10 @@ class HighchartGraphBox extends Component {
 
   render() {
     return (
-      <div className="row">
-        <figure id={this.props.containerId}
-                style={{minHeight: "500px"}}>
-          <figcaption>{this.props.title}</figcaption>
-        </figure>
-      </div>
+      <figure id={this.props.containerId}
+              style={{minHeight: "500px"}}>
+        <figcaption>{this.props.title}</figcaption>
+      </figure>
     );
   }
 }

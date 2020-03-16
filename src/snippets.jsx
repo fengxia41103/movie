@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import {random, different} from "lodash";
+import {random, difference} from "lodash";
 import {DebounceInput} from 'react-debounce-input';
 import { Button, Jumbotron } from "react-bootstrap";
 import {dictHasNoValues} from "./helper.jsx";
@@ -63,7 +63,8 @@ class SnippetQuizGame extends Component {
           {this.props.part1}
 
           <DebounceInput
-            className="input-field"
+            className="input-field myhighlight"
+            style={{fontSize: "1em"}}
             debounceTimeout={300}
             value={this.state.userAnswer}
             onChange={this.handleChange} />
@@ -119,7 +120,7 @@ class HintBox extends Component {
 
         <Button className="col l6 m6 s12"
                 onClick={this.onReset}>
-          Play again
+          Hide hints
         </Button>
         <p className="myhint">
           {whatIsLeft} hints left
@@ -172,11 +173,13 @@ class SnippetsBox extends Component {
 
     // randomly select two indexes, but can't be the whole thing!
     // _.random is inclusive.
-    const index_1 = random(0, words.length/2);
-    const index_2 = random(words.length/2, words.length);
-    const start = index_1 > index_2 ? index_2 : index_1;
-    const end = index_1 > index_2 ? index_1 : index_2;
+    const start = random(0, words.length/2);
 
+    // human patience is limited, 1-5 words at most
+    const length = random(1, Math.min(6,words.length/2));
+    const end = start + length;
+
+    // make the riddles
     const part_1 = words.slice(0, start).join(" ");
     const part_2 = words.slice(end, words.length).join(" ");
     const answer = words.slice(start, end);
@@ -210,6 +213,7 @@ class SnippetsBox extends Component {
         </Jumbotron>
 
         <SnippetQuizGame
+          key={this.state.onIndex}
           index={this.state.onIndex}
           line={snippet}
           part1={this.state.part_1}

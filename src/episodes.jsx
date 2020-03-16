@@ -20,8 +20,10 @@ class SeasonBox extends Component {
       const rating = e.rating;
       return (
         <div key={index}>
-          {name}:
-          <span className="blue-text right">{rating}</span>
+          <span className="col s11">{name}</span>
+          <span className="col s1 blue-text text-right">
+            {rating}
+          </span>
         </div>
       );
     })
@@ -42,11 +44,13 @@ class SeasonBox extends Component {
 
     return (
       <div className="row">
-        <h3>Season {this.props.season}</h3>
-        <div className="col l6 m6 s12">
+        <h3 className="text-right">
+          Season {this.props.season}
+        </h3>
+        <div className="col l6 m12 s12">
           {episodes}
         </div>
-        <div className="col s6 m6 s12">
+        <div className="col l6 m12 s12">
           <HighchartGraphBox
             containerId={containerId}
             categories={categories}
