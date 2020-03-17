@@ -12,20 +12,17 @@ import CrewBox from "./crews.jsx";
 import RatingBox from "./ratings.jsx";
 import {dictHasNoValues} from "./helper.jsx";
 import LangBox from "./lang.jsx";
+import OmdbContainer from "./omdb.jsx";
+import JsonDataContainer from "./json_data.jsx";
 
 class MovieBox extends Component {
   constructor(props){
     super(props);
 
     this.state={
-      json_data_server: "data/",
-      langData: {
-        en: "en_US.json",
-        pg: "la_PG.json"
-      },
       lang: "en",
-      omdbApi: "https://www.omdbapi.com/",
-      omdbToken: "c6638eb9",
+      theMovieDbApi: "https://api.themoviedb.org/3/find/",
+      theMovieDbToken: "e3c272cc822b221997e768121dc30bff",
       imdbID:null,
       data:null,
       showingTitle: "",
@@ -45,28 +42,15 @@ class MovieBox extends Component {
     })
   }
 
-  handleUpdate(data){
-    // handler to ajax calls that will retrieve
-    // data from various sources
-    const normalized = this.normalizeData(data);
-    this.setState({
-      showingTitle: normalized.title,
-      data: normalized,
-      imdbID: normalized.imdbID
-    });
-  }
-
   normalizeData(data){
-    // normalize data coming from different sources
-    const title = data.Title? data.Title: data.heading;
-
     let normalized = {
-      title: title,
+      title: data.title,
+      imdbIDB: data.imdbID,
       description: data.description || data.Plot,
       locations: data.locations || [],
       quote: data.quote || {},
       snippets: data.snippets || [],
-      gallery: data.gallery || [{"src":data.Poster, "text":title}],
+      gallery: data.gallery || [{"src":data.Poster, "text":data.title}],
       video: data["video-embed"] || [],
       episodes: data["episode-list"] || [],
       year: data.Year || "",
@@ -83,13 +67,13 @@ class MovieBox extends Component {
       metaScore: data.Metascore || "",
       imdbRating: parseFloat(data.imdbRating || ""),
       imdbVotes: parseInt(data.imdbVotes || ""),
-      imdbID: data.imdbID,
       type: data.Type || "",
       dvd: data.DVD || "",
       boxOffice: data.BoxOffice || "",
       production: data.Production || "",
       rated: data.Rated || ""
     }
+
 
     // Anything says "N/A" should be an empty string.
     // Individual component will determine how to handle this.
@@ -103,28 +87,34 @@ class MovieBox extends Component {
     return normalized;
   }
 
+
+  handleUpdate(data){
+    const normalized = this.normalizeData(data);
+    
+    this.setState({
+      imdbID: normalized.imdbID,
+      showingTitle: normalized.title,
+      data: normalized
+    });
+  }
+
   render(){
     // where to load data
     if (!!this.props.imdbID && this.state.data === null) {
       // if given an IMDB ID, query to get more movie info
       // using OMDB API
-
-      const query = this.state.omdbApi+"?apikey="
-                   +this.state.omdbToken
-                   +"&i="
-                   +encodeURI(this.props.imdbID);
       return (
-        <AjaxContainer
-          apiUrl={query}
-          handleUpdate={this.handleUpdate} />
+        <OmdbContainer
+          handleUpdate={this.handleUpdate}
+          {...this.props}/>
+
       )
+      
     }else{
       if (this.state.data === null){
-        // if no IMDB ID, load from data JSON
-        const query = this.state.json_data_server+this.state.langData[this.state.lang];
         return (
-          <AjaxJsonFileContainer
-            apiUrl={query}
+          <JsonDataContainer
+            lang={this.state.lang}
             handleUpdate={this.handleUpdate} />
         )
       }
@@ -134,10 +124,7 @@ class MovieBox extends Component {
     // so we handle it by which source the data is coming from.
     // This, however, is really a bad idea!
     let langs=[];
-    if (!this.state.imdbID){
-      langs = Object.keys(this.state.langData);
-    }
-
+    
     return (
       <div id={this.props.imdbID} className="mymovie">
         <h1>{this.state.data.title}</h1>
