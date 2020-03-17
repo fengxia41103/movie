@@ -63,6 +63,10 @@ h6 {
     border: 1px solid #d52349;
 }
 
+a.flabel:hover {
+    text-decoration: none;
+}
+
 
 label {
     font-family: "Roboto Condensed", sans-serif;
@@ -183,4 +187,13 @@ footer.page-footer {
 
 .myhint {
     color: gray;
+}
+
+.mymovie {
+    border-top: 1px solid #f5f5f5;
+}
+
+.mylang {
+    font-size: small;
+    color: #2196f3;
 }

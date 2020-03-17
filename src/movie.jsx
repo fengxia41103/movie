@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import classNames from "classnames";
 import AjaxContainer from "./ajax.jsx";
 import AjaxJsonFileContainer from "./ajax_json.jsx";
-
 import GalleryBox from "./gallery.jsx";
 import LocationBox from "./locations.jsx";
 import QuoteBox from "./quotes.jsx";
@@ -12,6 +11,7 @@ import SubtitleBox from "./subtitle.jsx";
 import CrewBox from "./crews.jsx";
 import RatingBox from "./ratings.jsx";
 import {dictHasNoValues} from "./helper.jsx";
+import LangBox from "./lang.jsx";
 
 class MovieBox extends Component {
   constructor(props){
@@ -19,6 +19,11 @@ class MovieBox extends Component {
 
     this.state={
       json_data_server: "data/",
+      langData: {
+        en: "en_US.json",
+        pg: "la_PG.json"
+      },
+      lang: "en",
       omdbApi: "https://www.omdbapi.com/",
       omdbToken: "c6638eb9",
       imdbID:null,
@@ -26,13 +31,21 @@ class MovieBox extends Component {
       showingTitle: ""
     }
 
+
     // binding
     this.handleUpdate = this.handleUpdate.bind(this);
     this.normalizeData = this.normalizeData.bind(this);
+    this.onLang = this.onLang.bind(this);
   }
 
+  onLang(lang){
+    this.setState({
+      lang: lang,
+      data: null // enforce data reload
+    })
+  }
 
-  handleUpdate (data){
+  handleUpdate(data){
     // handler to ajax calls that will retrieve
     // data from various sources
     const normalized = this.normalizeData(data);
@@ -90,11 +103,8 @@ class MovieBox extends Component {
   }
 
   render(){
-
-      // nothing to render
-      /*     if (dictHasNoValues(this.props)) return null; */
-
-      if (!!this.props.imdbID && this.state.data === null) {
+    const langs = Object.keys(this.state.langData);
+    if (!!this.props.imdbID && this.state.data === null) {
       // if given an IMDB ID, query to get more movie info
       // using OMDB API
 
@@ -110,7 +120,7 @@ class MovieBox extends Component {
     }else{
       if (this.state.data === null){
         // if no IMDB ID, load from data JSON
-        const query = this.state.json_data_server+"en_US.json";
+        const query = this.state.json_data_server+this.state.langData[this.state.lang];
         return (
           <AjaxJsonFileContainer
             apiUrl={query}
@@ -120,8 +130,10 @@ class MovieBox extends Component {
     }
 
     return (
-      <div>
+      <div id={this.props.imdbID} className="mymovie">
         <h1>{this.state.data.title}</h1>
+        <LangBox langs={langs}
+                 onLang={this.onLang}/>
 
         <SubtitleBox
           runtime={this.state.data.runtime}
@@ -138,7 +150,7 @@ class MovieBox extends Component {
               director={this.state.data.director}
               genres={this.state.data.genres}
               writers={this.state.data.writers}
-              actors={this.state.data.actors}/>
+              actors={this.state.data.actors} />
 
             <RatingBox ratings={this.state.data.ratings}
                        imdbID={this.state.data.imdbID} />

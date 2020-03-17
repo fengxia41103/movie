@@ -26,16 +26,35 @@ class RootBox extends React.Component {
   }
 
   render() {
-    const movies = this.state.data.map((m, index)=>{
-      return (
-        <MovieBox key={m.imdbID} imdbID={m.imdbID} />
-      )
-    });
+    let movies = null, found = null;
+    if (!!this.state.data){
+      movies = this.state.data.map(m=>{
+        return (
+          <MovieBox key={m.imdbID}
+                    imdbID={m.imdbID}/>
+        )
+      });
+
+      found = this.state.data.map(m=>{
+        if (!m.imdbID) return null;
+
+        const anchor="#"+m.imdbID;
+        return (
+          <a className="flabel"
+             href={anchor}>
+            {m.Title}
+          </a>
+        )
+      });
+    } else{
+      movies = "Nothing is found. Try a different title ~~"
+    }
 
     return (
       <div className="container">
         <label>Search for your favourate movie</label>
         <SearchBox handleUpdate={this.handleUpdate} />
+        {found}
         {movies}
       </div>
     );

@@ -40,17 +40,17 @@ class CrewBox extends Component {
 
     return (
       <div>
-          <label>Genre</label>
-          <p>{genres}</p>
+        <label>Genre</label>
+        <p>{genres}</p>
 
-          <label>Director</label>
-          <p>{director}</p>
+        <label>Director</label>
+        <p>{director}</p>
 
-          <label>Starring</label>
-          <p>{starring}</p>
+        <label>Starring</label>
+        <p>{starring}</p>
 
-          <label>Writer</label>
-          <p>{this.props.writers}</p>
+        <label>Writer</label>
+        <p>{this.props.writers}</p>
       </div>
     );
   }

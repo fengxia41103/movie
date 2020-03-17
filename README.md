@@ -1,6 +1,8 @@
 # Feng's movie browser
 
-[Demo](https://fengxia41103.github.io/movie/)
+[Go to live demo](https://fengxia41103.github.io/movie/)
+
+![Demo screencast](doc/demo.gif)
 
 ## Background
 
