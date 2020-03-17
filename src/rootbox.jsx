@@ -40,7 +40,8 @@ class RootBox extends React.Component {
 
         const anchor="#"+m.imdbID;
         return (
-          <a className="flabel"
+          <a key={m.imdbID}
+             className="flabel"
              href={anchor}>
             {m.Title}
           </a>
