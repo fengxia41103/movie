@@ -1,9 +1,13 @@
 # Feng's movie browser
 
-Posted a challenge to build a _search_/browser for movie fan. Given a
-static data set to display. So on top of given, implemented a few
-other data sources to spice things up. Coded in React, which I found
-the ES6 syntax much cleaner. 
+[Demo](https://fengxia41103.github.io/movie/)
+
+## Background
+
+Posted a challenge to build a _search_/browser for movie
+fan. Initially was given a static data set to display. So on top of
+that, I start to pull in a few other data sources to spice things
+up. Coded in React, which I found the ES6 syntax much cleaner.
 
 
 ## Development
