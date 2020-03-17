@@ -75,20 +75,6 @@ article p {
 }
 
 
-.myheader {
-    background: url("/images/DSC_1190309.JPG") no-repeat;
-    min-height: 100vh;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    color: #efefef;
-    //color: #d52349;
-    padding: 3em 0em;
-    margin-bottom: 2em;
-    overflow-x: hidden;
-}
-
 .myhighlight {
     color: #d52349;
 }

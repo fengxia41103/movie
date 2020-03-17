@@ -16,7 +16,7 @@ var config = {
     ],
     output: {
         path: BUILD_DIR,
-        publicPath: "/", // dev
+        publicPath: "/movie/", // deploy
         // publicPath: "http://cdn..." // production
         filename: 'bundle.js'
     },
@@ -49,7 +49,7 @@ var config = {
             test: /\.css$/,
             loader: "style-loader!css-loader"
         }, {
-            test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/,
+            test: /\.(eot|woff|woff2|ttf|svg|png|jpg|JPG)$/,
             loader: 'url-loader?limit=30000&name=[name]-[hash].[ext]',
 
         }, {

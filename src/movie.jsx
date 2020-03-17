@@ -19,7 +19,7 @@ class MovieBox extends Component {
 
     this.state={
       json_data_server: "data/",
-      omdbApi: "http://www.omdbapi.com/",
+      omdbApi: "https://www.omdbapi.com/",
       omdbToken: "c6638eb9",
       imdbID:null,
       data:null,

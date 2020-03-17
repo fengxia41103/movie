@@ -9,7 +9,7 @@ class SearchBox extends Component {
     super(props);
 
     this.state={
-      omdbApi: "http://www.omdbapi.com/",
+      omdbApi: "https://www.omdbapi.com/",
       omdbToken: "c6638eb9",
       tmdbApi: "https://api.themoviedb.org/3/",
       tmdbToken: "e3c272cc822b221997e768121dc30bff",
