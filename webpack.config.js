@@ -16,7 +16,7 @@ var config = {
     ],
     output: {
         path: BUILD_DIR,
-        publicPath: BUILD_DIR, // dev
+        publicPath: "/", // dev
         // publicPath: "http://cdn..." // production
         filename: 'bundle.js'
     },
