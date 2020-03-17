@@ -205,7 +205,7 @@ class SnippetsBox extends Component {
           <p>
             Want to test out your knowledge of this movie!? Try to fill in
             the missing words for these snippets. You can use the CLUE
-            button for help, or the TELL ME if you are really stuck.
+            button for help.
           </p>
           <p>
             <Button onClick={this.onNext}>Play the game</Button>

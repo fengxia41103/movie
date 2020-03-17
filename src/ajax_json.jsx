@@ -15,15 +15,15 @@ class AjaxJsonFileContainer extends Component{
 
   workHorse (api, handleUpdate){
     // Work horse
-    fetch(api).then(function(resp) {
+    fetch(api).then(resp=> {
       return resp.text();
-    }).then(function(text) {
+    })
+    .then(text=>{
       if ((typeof text != "undefined") && text) {
         handleUpdate(text);
       }
-    }).catch(function(error) {
-      console.log(error);
-    });
+    })
+    .catch(error=> {});
   }
 
   render() {

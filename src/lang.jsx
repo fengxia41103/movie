@@ -5,7 +5,7 @@ import {dictHasNoValues} from "./helper.jsx";
 
 class LangBox extends Component {
   render() {
-    if (!!!this.props.langs) return null;
+    if (this.props.langs.length<1) return null;
     
     const onLang = this.props.onLang;
     const langOptions = this.props.langs.map(lang=>{

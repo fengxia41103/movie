@@ -28,7 +28,7 @@ class MovieBox extends Component {
       omdbToken: "c6638eb9",
       imdbID:null,
       data:null,
-      showingTitle: ""
+      showingTitle: "",
     }
 
 
@@ -51,7 +51,8 @@ class MovieBox extends Component {
     const normalized = this.normalizeData(data);
     this.setState({
       showingTitle: normalized.title,
-      data: normalized
+      data: normalized,
+      imdbID: normalized.imdbID
     });
   }
 
@@ -103,7 +104,7 @@ class MovieBox extends Component {
   }
 
   render(){
-    const langs = Object.keys(this.state.langData);
+    // where to load data
     if (!!this.props.imdbID && this.state.data === null) {
       // if given an IMDB ID, query to get more movie info
       // using OMDB API
@@ -127,6 +128,14 @@ class MovieBox extends Component {
             handleUpdate={this.handleUpdate} />
         )
       }
+    }
+
+    // TODO: lang options are not built in dataset,
+    // so we handle it by which source the data is coming from.
+    // This, however, is really a bad idea!
+    let langs=[];
+    if (!this.state.imdbID){
+      langs = Object.keys(this.state.langData);
     }
 
     return (
