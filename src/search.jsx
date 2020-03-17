@@ -62,7 +62,7 @@ class SearchBox extends Component {
         <DebounceInput
           className="input-field myhighlight"
           style={{fontSize: "1em"}}
-          placeholder="eg. Star Wars (case sensitive)"
+          placeholder="eg. Star Wars (case insensitive)"
           debounceTimeout={1000}
           value={this.state.searching}
           onChange={this.handleChange} />
