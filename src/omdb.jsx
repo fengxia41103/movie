@@ -6,8 +6,8 @@ class OmdbContainer extends Component {
     super(props);
 
     this.state={
-      omdbApi: "https://www.omdbapi.com/",
-      omdbToken: "c6638eb9",
+      api: "https://www.omdbapi.com/",
+      token: "c6638eb9",
     }
 
     // binding
@@ -25,10 +25,11 @@ class OmdbContainer extends Component {
 
 
   render(){
-    const query = this.state.omdbApi+"?apikey="
-                 +this.state.omdbToken
+    const query = this.state.api+"?apikey="
+                 +this.state.token
                  +"&i="
                  +encodeURI(this.props.imdbID);
+
     return (
         <AjaxContainer
           apiUrl={query}

@@ -1,7 +1,12 @@
 import React, {Component} from "react";
 import classNames from "classnames";
-import AjaxContainer from "./ajax.jsx";
-import AjaxJsonFileContainer from "./ajax_json.jsx";
+
+// API integration points
+import JsonDataContainer from "./json_data.jsx";
+import OmdbContainer from "./omdb.jsx";
+import TheMovieDbContainer from "./themoviedb.jsx";
+
+// view components
 import GalleryBox from "./gallery.jsx";
 import LocationBox from "./locations.jsx";
 import QuoteBox from "./quotes.jsx";
@@ -10,19 +15,19 @@ import EpisodeBox from "./episodes.jsx";
 import SubtitleBox from "./subtitle.jsx";
 import CrewBox from "./crews.jsx";
 import RatingBox from "./ratings.jsx";
-import {dictHasNoValues} from "./helper.jsx";
 import LangBox from "./lang.jsx";
-import OmdbContainer from "./omdb.jsx";
-import JsonDataContainer from "./json_data.jsx";
+
+// helpers
+import {concat, each, isNil, isEmpty} from "lodash";
+import {dictHasNoValues} from "./helper.jsx";
 
 class MovieBox extends Component {
   constructor(props){
     super(props);
 
     this.state={
+      langs: ["en", "pg"],
       lang: "en",
-      theMovieDbApi: "https://api.themoviedb.org/3/find/",
-      theMovieDbToken: "e3c272cc822b221997e768121dc30bff",
       imdbID:null,
       data:null,
       showingTitle: "",
@@ -45,7 +50,7 @@ class MovieBox extends Component {
   normalizeData(data){
     let normalized = {
       title: data.title,
-      imdbIDB: data.imdbID,
+      imdbID: data.imdbID,
       description: data.description || data.Plot,
       locations: data.locations || [],
       quote: data.quote || {},
@@ -89,8 +94,29 @@ class MovieBox extends Component {
 
 
   handleUpdate(data){
-    const normalized = this.normalizeData(data);
-    
+    let normalized = this.normalizeData(data);
+
+    // if we already have this data, merge w/ other sources'
+    if (this.state.data && normalized.imdbID === this.state.data.imdbID){
+      let source = this.state.data;
+      
+      each(source, (val, key)=>{
+        if (!isNil(val) && !isEmpty(val)){
+          // we have value to merge
+          if (key === "gallery"){
+            // gallery is [], using _.concat
+            normalized.gallery = concat(normalized.gallery, val);
+          } else {
+            if (isEmpty(normalized[key]) && !isEmpty(val)){
+              // if source has  no value, assign one 
+              normalized[key] = val;
+            }
+          }
+        }
+      });
+    }
+
+    // update data
     this.setState({
       imdbID: normalized.imdbID,
       showingTitle: normalized.title,
@@ -104,10 +130,15 @@ class MovieBox extends Component {
       // if given an IMDB ID, query to get more movie info
       // using OMDB API
       return (
-        <OmdbContainer
-          handleUpdate={this.handleUpdate}
-          {...this.props}/>
+        <div>
+          <OmdbContainer
+            handleUpdate={this.handleUpdate}
+            {...this.props}/>
 
+          <TheMovieDbContainer
+            handleUpdate={this.handleUpdate}
+            {...this.props}/>
+        </div>
       )
       
     }else{
@@ -123,8 +154,8 @@ class MovieBox extends Component {
     // TODO: lang options are not built in dataset,
     // so we handle it by which source the data is coming from.
     // This, however, is really a bad idea!
-    let langs=[];
-    
+    const langs=(!!this.state.imdbID && !!this.state.data.title)?[]:this.state.langs;
+
     return (
       <div id={this.props.imdbID} className="mymovie">
         <h1>{this.state.data.title}</h1>

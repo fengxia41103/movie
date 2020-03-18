@@ -20,7 +20,7 @@ class JsonDataContainer extends Component {
     // normalize data coming from different sources
     let normalized = data;
     normalized.title = data.heading;
-    normalized.imdbID = "unknown";
+    normalized.imdbID = null;
 
     this.props.handleUpdate(normalized);
   }
